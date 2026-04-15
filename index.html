@@ -364,6 +364,15 @@
       });
       saveHistory(historyData.slice(0, 150));
       renderHistory();
+
+    // 🔄 Automatinis atnaujinimas kas 5 sekundes
+    setInterval(() => {
+      try {
+        loadPartsFromSheet();
+      } catch (e) {
+        console.warn('Auto refresh klaida:', e);
+      }
+    }, 5000);
     }
 
     function renderHistory() {
