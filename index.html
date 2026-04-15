@@ -4,8 +4,10 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Detalių QR sandėlis</title>
+
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
   <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
+
   <style>
     :root {
       --bg: #f4f7fb;
@@ -21,18 +23,22 @@
       --shadow: 0 10px 30px rgba(31, 41, 55, 0.08);
       --radius: 18px;
     }
+
     * { box-sizing: border-box; }
+
     body {
       margin: 0;
       font-family: Arial, Helvetica, sans-serif;
       background: var(--bg);
       color: var(--text);
     }
+
     .wrap {
-      max-width: 1250px;
+      max-width: 1280px;
       margin: 0 auto;
       padding: 20px;
     }
+
     .topbar {
       display: flex;
       justify-content: space-between;
@@ -41,13 +47,24 @@
       margin-bottom: 20px;
       flex-wrap: wrap;
     }
-    h1 { margin: 0; font-size: 28px; }
-    .sub { color: var(--muted); margin-top: 6px; font-size: 14px; }
+
+    h1 {
+      margin: 0;
+      font-size: 28px;
+    }
+
+    .sub {
+      color: var(--muted);
+      margin-top: 6px;
+      font-size: 14px;
+    }
+
     .grid {
       display: grid;
-      grid-template-columns: 400px 1fr;
+      grid-template-columns: 420px 1fr;
       gap: 20px;
     }
+
     .card {
       background: var(--card);
       border: 1px solid var(--line);
@@ -55,29 +72,57 @@
       box-shadow: var(--shadow);
       padding: 18px;
     }
-    .card h2 { margin: 0 0 14px 0; font-size: 20px; }
-    label { display: block; margin-bottom: 8px; font-size: 14px; font-weight: bold; }
-    input, button, textarea {
+
+    .card h2 {
+      margin: 0 0 14px 0;
+      font-size: 20px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 14px;
+      font-weight: bold;
+    }
+
+    input, textarea, button {
       width: 100%;
       padding: 12px 14px;
       border: 1px solid var(--line);
       border-radius: 12px;
       font-size: 14px;
     }
-    textarea { resize: vertical; min-height: 90px; }
+
+    textarea {
+      resize: vertical;
+      min-height: 90px;
+    }
+
     input:focus, textarea:focus {
       outline: none;
       border-color: var(--primary);
       box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
     }
+
     .field { margin-bottom: 14px; }
-    .row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+
+    .row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
     .actions, .toolbar, .mini-actions {
       display: flex;
       gap: 10px;
       flex-wrap: wrap;
     }
-    .toolbar input { flex: 1; min-width: 220px; }
+
+    .toolbar input {
+      flex: 1;
+      min-width: 220px;
+    }
+
     button {
       cursor: pointer;
       border: none;
@@ -85,20 +130,27 @@
       transition: 0.2s ease;
       width: auto;
     }
-    .btn-primary { background: var(--primary); color: #fff; }
+
+    .btn-primary { background: var(--primary); color: white; }
     .btn-primary:hover { background: var(--primary-dark); }
     .btn-muted { background: #eef2f7; color: var(--text); }
     .btn-danger { background: #fee2e2; color: var(--danger); }
     .btn-success { background: #dcfce7; color: var(--success); }
     .btn-warning { background: #fef3c7; color: var(--warning); }
-    .btn-block { width: 100%; }
+
+    .table-wrap {
+      max-height: 650px;
+      overflow: auto;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: white;
+    }
+
     table {
       width: 100%;
       border-collapse: collapse;
-      background: white;
-      overflow: hidden;
-      border-radius: 14px;
     }
+
     th, td {
       text-align: left;
       padding: 12px 10px;
@@ -106,51 +158,123 @@
       font-size: 14px;
       vertical-align: top;
     }
-    th { background: #f8fafc; position: sticky; top: 0; z-index: 1; }
-    .table-wrap {
-      max-height: 600px;
-      overflow: auto;
+
+    th {
+      background: #f8fafc;
+      position: sticky;
+      top: 0;
+      z-index: 1;
+    }
+
+    .mini-actions button {
+      padding: 8px 10px;
+      border-radius: 10px;
+    }
+
+    .status {
+      margin-top: 12px;
+      padding: 10px 12px;
+      border-radius: 12px;
+      font-size: 14px;
+      display: none;
+    }
+
+    .status.ok {
+      background: #dcfce7;
+      color: #166534;
+      display: block;
+    }
+
+    .status.err {
+      background: #fee2e2;
+      color: #991b1b;
+      display: block;
+    }
+
+    .small {
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .muted {
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 4px 8px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: bold;
+      background: #eff6ff;
+      color: var(--primary);
+    }
+
+    .sync-line {
+      margin-top: 10px;
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .scanner-box {
       border: 1px solid var(--line);
       border-radius: 14px;
+      overflow: hidden;
+      background: #fff;
+      min-height: 120px;
     }
-    .mini-actions button { padding: 8px 10px; border-radius: 10px; }
+
     .qr-modal {
-      position: fixed; inset: 0; background: rgba(17,24,39,.58);
-      display: none; align-items: center; justify-content: center; padding: 20px; z-index: 30;
+      position: fixed;
+      inset: 0;
+      background: rgba(17,24,39,.58);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      z-index: 30;
     }
+
     .qr-box {
-      width: 100%; max-width: 430px; background: #fff; border-radius: 22px; padding: 22px; box-shadow: var(--shadow);
+      width: 100%;
+      max-width: 430px;
+      background: #fff;
+      border-radius: 22px;
+      padding: 22px;
+      box-shadow: var(--shadow);
     }
+
     .qr-area {
-      display: flex; align-items: center; justify-content: center; min-height: 240px;
-      border: 1px dashed var(--line); border-radius: 16px; margin: 14px 0; padding: 16px; background: #fafcff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 240px;
+      border: 1px dashed var(--line);
+      border-radius: 16px;
+      margin: 14px 0;
+      padding: 16px;
+      background: #fafcff;
     }
-    .muted { color: var(--muted); font-size: 13px; }
-    .small { font-size: 12px; color: var(--muted); }
-    .status {
-      margin-top: 12px; padding: 10px 12px; border-radius: 12px; font-size: 14px; display: none;
-    }
-    .status.ok { background: #dcfce7; color: #166534; display: block; }
-    .status.err { background: #fee2e2; color: #991b1b; display: block; }
-    .history-list {
-      max-height: 220px; overflow: auto; border: 1px solid var(--line); border-radius: 14px; padding: 10px; background: #fbfdff;
-    }
-    .history-item { border-bottom: 1px solid var(--line); padding: 10px 4px; font-size: 13px; }
-    .history-item:last-child { border-bottom: none; }
-    .badge {
-      display: inline-block; padding: 4px 8px; border-radius: 999px; font-size: 12px; font-weight: bold; background: #eff6ff; color: var(--primary);
-    }
-    .scanner-box {
-      border: 1px solid var(--line); border-radius: 14px; overflow: hidden; background: #fff; min-height: 120px;
-    }
-    .sync-line { margin-top: 10px; font-size: 12px; color: var(--muted); }
+
     @media (max-width: 980px) {
-      .grid { grid-template-columns: 1fr; }
+      .grid {
+        grid-template-columns: 1fr;
+      }
     }
+
     @media print {
       body * { visibility: hidden; }
       .qr-box, .qr-box * { visibility: visible; }
-      .qr-box { position: absolute; left: 0; top: 0; width: 100%; max-width: none; box-shadow: none; border-radius: 0; }
+      .qr-box {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        max-width: none;
+        box-shadow: none;
+        border-radius: 0;
+      }
       .no-print { display: none !important; }
     }
   </style>
@@ -160,7 +284,7 @@
     <div class="topbar">
       <div>
         <h1>Detalių QR sandėlis</h1>
-        <div class="sub">Bendra versija kompiuteriui ir telefonui. Visi duomenys skaitomi ir rašomi per Google Sheets + Apps Script.</div>
+        <div class="sub">Bendra versija kompiuteriui ir telefonui. Duomenys laikomi Google Sheets faile.</div>
       </div>
       <div class="badge">Cloud sync</div>
     </div>
@@ -171,7 +295,7 @@
           <h2>Nustatymai</h2>
           <div class="field">
             <label for="appsScriptUrl">Apps Script Web App URL</label>
-            <input id="appsScriptUrl" placeholder="Įklijuok Apps Script URL" />
+            <input id="appsScriptUrl" placeholder="Įklijuok Apps Script Web App URL" />
           </div>
           <div class="actions">
             <button class="btn-warning" id="saveConfigBtn">Išsaugoti URL</button>
@@ -182,46 +306,57 @@
 
         <div class="card" style="margin-top:20px;">
           <h2>Pridėti / redaguoti detalę</h2>
+
           <div class="field">
             <label for="partCode">Detalės kodas</label>
-            <input id="partCode" placeholder="Pvz. DET-001" />
+            <input id="partCode" placeholder="Pvz. 213129" />
           </div>
+
           <div class="field">
             <label for="partName">Pavadinimas</label>
-            <input id="partName" placeholder="Pvz. Guolis 6204" />
+            <input id="partName" placeholder="Pvz. Verzle M25x1,5" />
           </div>
+
           <div class="row">
             <div class="field">
               <label for="partQty">Kiekis</label>
               <input id="partQty" type="number" min="0" value="1" />
             </div>
+
             <div class="field">
               <label for="partLocation">Vieta</label>
               <input id="partLocation" placeholder="Pvz. A-01" />
             </div>
           </div>
+
           <div class="field">
             <label for="partNotes">Pastabos</label>
-            <textarea id="partNotes" placeholder="Papildoma informacija"></textarea>
+            <textarea id="partNotes" placeholder="Pvz. Sandėlys"></textarea>
           </div>
+
           <div class="actions">
             <button class="btn-primary" id="saveBtn">Išsaugoti detalę</button>
             <button class="btn-muted" id="clearBtn">Išvalyti formą</button>
           </div>
+
           <div id="statusBox" class="status"></div>
         </div>
 
         <div class="card" style="margin-top:20px;">
           <h2>Mobilus skenavimas</h2>
-          <p class="muted">Telefonu nuskaityk QR. Sistema ieškos bendrame Google Sheets sąraše.</p>
+          <p class="muted">Telefonu nuskaityk QR. QR reikšmė yra detalės kodas.</p>
+
           <div class="actions" style="margin-bottom:12px;">
             <button class="btn-primary" id="startScanBtn">Pradėti skenavimą</button>
             <button class="btn-danger" id="stopScanBtn">Sustabdyti skenavimą</button>
           </div>
+
           <div id="reader" class="scanner-box"></div>
+
           <div id="scanResultBox" style="margin-top:14px;display:none;border:1px solid var(--line);border-radius:14px;padding:14px;background:#fbfdff;">
             <div><strong>Nuskaitytas kodas:</strong> <span id="scanCodeText">-</span></div>
             <div style="margin-top:8px;"><strong>Rasta detalė:</strong> <span id="scanPartText">Nėra</span></div>
+
             <div class="actions" style="margin-top:12px;">
               <button class="btn-success" id="scanPlusBtn">+1</button>
               <button class="btn-warning" id="scanMinusBtn">-1</button>
@@ -230,21 +365,17 @@
             </div>
           </div>
         </div>
-
-        <div class="card" style="margin-top:20px;">
-          <h2>Judėjimo istorija</h2>
-          <div class="history-list" id="historyList"></div>
-        </div>
       </div>
 
       <div>
         <div class="card">
           <h2>Detalių sąrašas</h2>
+
           <div class="toolbar">
-            <input id="searchInput" placeholder="Ieškoti pagal kodą, pavadinimą arba vietą" />
+            <input id="searchInput" placeholder="Ieškoti pagal kodą, pavadinimą, vietą ar pastabą" />
             <button class="btn-muted" id="refreshBtn">Atnaujinti</button>
-            <button class="btn-muted" id="exportBtn">Eksportuoti CSV</button>
           </div>
+
           <div class="table-wrap">
             <table>
               <thead>
@@ -253,6 +384,7 @@
                   <th>Pavadinimas</th>
                   <th>Kiekis</th>
                   <th>Vieta</th>
+                  <th>Pastabos</th>
                   <th>Veiksmai</th>
                 </tr>
               </thead>
@@ -270,25 +402,26 @@
         <h2 style="margin:0;">QR etiketė</h2>
         <button class="btn-danger" id="closeQrBtn">Uždaryti</button>
       </div>
+
       <div id="qrPartInfo" style="margin-top:14px;"></div>
       <div class="qr-area"><div id="qrCanvas"></div></div>
       <div class="muted" id="qrValueText"></div>
+
       <div class="actions no-print" style="margin-top:16px;">
-        <button class="btn-primary btn-block" onclick="window.print()">Spausdinti QR</button>
+        <button class="btn-primary" onclick="window.print()">Spausdinti QR</button>
       </div>
     </div>
   </div>
 
   <script>
     const CONFIG_KEY = 'detaliu_qr_cloud_config_v1';
-    const HISTORY_KEY = 'detaliu_qr_cloud_history_v1';
 
     let parts = [];
-    let editingCode = null;
+    let editingPart = null;
     let html5QrCode = null;
     let isScannerRunning = false;
     let lastScannedCode = '';
-    let lastScannedPartCode = null;
+    let lastScannedPart = null;
 
     const partCode = document.getElementById('partCode');
     const partName = document.getElementById('partName');
@@ -298,7 +431,6 @@
     const statusBox = document.getElementById('statusBox');
     const partsTableBody = document.getElementById('partsTableBody');
     const searchInput = document.getElementById('searchInput');
-    const historyList = document.getElementById('historyList');
     const appsScriptUrlInput = document.getElementById('appsScriptUrl');
     const qrModal = document.getElementById('qrModal');
     const qrCanvas = document.getElementById('qrCanvas');
@@ -312,21 +444,15 @@
     appsScriptUrlInput.value = loadConfig().appsScriptUrl || '';
 
     function loadConfig() {
-      try { return JSON.parse(localStorage.getItem(CONFIG_KEY)) || {}; }
-      catch { return {}; }
+      try {
+        return JSON.parse(localStorage.getItem(CONFIG_KEY)) || {};
+      } catch {
+        return {};
+      }
     }
 
     function saveConfig(config) {
       localStorage.setItem(CONFIG_KEY, JSON.stringify(config));
-    }
-
-    function loadHistory() {
-      try { return JSON.parse(localStorage.getItem(HISTORY_KEY)) || []; }
-      catch { return []; }
-    }
-
-    function saveHistory(items) {
-      localStorage.setItem(HISTORY_KEY, JSON.stringify(items));
     }
 
     function showStatus(message, type = 'ok') {
@@ -348,49 +474,16 @@
         .replaceAll("'", '&#039;');
     }
 
+    function normalizeText(value) {
+      return String(value ?? '').trim();
+    }
+
     function updateLastSync() {
       lastSyncText.textContent = 'Paskutinis užkrovimas: ' + new Date().toLocaleString('lt-LT');
     }
 
-    function addHistory(action, part, extra = '') {
-      const historyData = loadHistory();
-      historyData.unshift({
-        date: new Date().toLocaleString('lt-LT'),
-        action,
-        code: part.code,
-        name: part.name,
-        qty: part.qty,
-        extra
-      });
-      saveHistory(historyData.slice(0, 150));
-      renderHistory();
-
-    // 🔄 Automatinis atnaujinimas kas 5 sekundes
-    setInterval(() => {
-      try {
-        loadPartsFromSheet();
-      } catch (e) {
-        console.warn('Auto refresh klaida:', e);
-      }
-    }, 5000);
-    }
-
-    function renderHistory() {
-      const historyData = loadHistory();
-      if (!historyData.length) {
-        historyList.innerHTML = '<div class="muted">Istorijos dar nėra.</div>';
-        return;
-      }
-      historyList.innerHTML = historyData.map(item => `
-        <div class="history-item">
-          <strong>${escapeHtml(item.action)}</strong> — ${escapeHtml(item.code)} / ${escapeHtml(item.name)}<br>
-          <span class="small">Kiekis: ${item.qty} | ${escapeHtml(item.date)} ${item.extra ? '| ' + escapeHtml(item.extra) : ''}</span>
-        </div>
-      `).join('');
-    }
-
     function clearForm() {
-      editingCode = null;
+      editingPart = null;
       partCode.value = '';
       partName.value = '';
       partQty.value = 1;
@@ -402,25 +495,31 @@
 
     function getFormData() {
       return {
-        code: partCode.value.trim(),
-        name: partName.value.trim(),
+        code: normalizeText(partCode.value),
+        name: normalizeText(partName.value),
         qty: Number(partQty.value),
-        location: partLocation.value.trim(),
-        notes: partNotes.value.trim()
+        location: normalizeText(partLocation.value),
+        notes: normalizeText(partNotes.value),
+        originalNotes: editingPart ? normalizeText(editingPart.notes) : ''
       };
     }
 
     function getApiBase() {
-      const url = appsScriptUrlInput.value.trim();
-      if (!url) throw new Error('Neįvestas Apps Script URL');
+      const url = normalizeText(appsScriptUrlInput.value);
+      if (!url) {
+        throw new Error('Neįvestas Apps Script URL');
+      }
       return url;
     }
 
     async function apiGet(params = {}) {
       const url = new URL(getApiBase());
-      Object.entries(params).forEach(([k, v]) => url.searchParams.set(k, v));
+      Object.entries(params).forEach(([key, value]) => url.searchParams.set(key, value));
+
       const response = await fetch(url.toString(), { method: 'GET' });
-      if (!response.ok) throw new Error('GET klaida: ' + response.status);
+      if (!response.ok) {
+        throw new Error('GET klaida: ' + response.status);
+      }
       return response.json();
     }
 
@@ -430,19 +529,24 @@
         headers: { 'Content-Type': 'text/plain;charset=utf-8' },
         body: JSON.stringify(payload)
       });
-      if (!response.ok) throw new Error('POST klaida: ' + response.status);
+
+      if (!response.ok) {
+        throw new Error('POST klaida: ' + response.status);
+      }
+
       return response.json();
     }
 
     async function loadPartsFromSheet() {
       try {
-        showStatus('Kraunami duomenys iš Google Sheets...', 'ok');
         const data = await apiGet({ action: 'listParts' });
         parts = Array.isArray(data.parts) ? data.parts : [];
         renderTable();
         updateLastSync();
-        showStatus(`Užkrauta detalių: ${parts.length}.`, 'ok');
-        if (lastScannedCode) showScannedPart(lastScannedCode);
+
+        if (lastScannedCode) {
+          showScannedPart(lastScannedCode);
+        }
       } catch (error) {
         showStatus('Nepavyko užkrauti iš Google Sheets: ' + error.message, 'err');
       }
@@ -450,85 +554,131 @@
 
     async function savePartToSheet() {
       const data = getFormData();
+
       if (!data.code || !data.name) {
         showStatus('Įvesk detalės kodą ir pavadinimą.', 'err');
         return;
       }
+
       if (Number.isNaN(data.qty) || data.qty < 0) {
         showStatus('Kiekis turi būti 0 arba didesnis.', 'err');
         return;
       }
 
       try {
-        await apiPost({
-          action: editingCode ? 'updatePart' : 'createPart',
-          originalCode: editingCode || '',
+        const result = await apiPost({
+          action: editingPart ? 'updatePart' : 'createPart',
+          originalCode: editingPart ? editingPart.code : '',
           part: data
         });
-        addHistory(editingCode ? 'Redaguota detalė' : 'Pridėta detalė', data);
+
         await loadPartsFromSheet();
         clearForm();
-        showStatus('Detalė išsaugota Google Sheets faile.', 'ok');
+
+        if (result.merged) {
+          showStatus(`Detalė sujungta. Naujas kiekis: ${result.newQty}`, 'ok');
+        } else if (result.created) {
+          showStatus('Detalė sukurta.', 'ok');
+        } else if (result.updated) {
+          showStatus('Detalė atnaujinta.', 'ok');
+        } else {
+          showStatus('Veiksmas atliktas.', 'ok');
+        }
       } catch (error) {
         showStatus('Nepavyko išsaugoti detalės: ' + error.message, 'err');
       }
     }
 
     function renderTable() {
-      const q = searchInput.value.trim().toLowerCase();
-      const filtered = parts.filter(p =>
-        [p.code, p.name, p.location, p.notes].some(v => String(v || '').toLowerCase().includes(q))
+      const q = normalizeText(searchInput.value).toLowerCase();
+
+      const filtered = parts.filter(part =>
+        [part.code, part.name, part.location, part.notes]
+          .some(value => String(value || '').toLowerCase().includes(q))
       );
 
       if (!filtered.length) {
-        partsTableBody.innerHTML = '<tr><td colspan="5" class="muted">Nėra detalių pagal pasirinktą paiešką.</td></tr>';
+        partsTableBody.innerHTML = `
+          <tr>
+            <td colspan="6" class="muted">Nėra detalių pagal pasirinktą paiešką.</td>
+          </tr>
+        `;
         return;
       }
 
       partsTableBody.innerHTML = filtered.map(part => `
         <tr>
           <td><strong>${escapeHtml(part.code)}</strong></td>
-          <td>${escapeHtml(part.name)}<br><span class="small">${escapeHtml(part.notes || '')}</span></td>
+          <td>${escapeHtml(part.name)}</td>
           <td>${part.qty}</td>
           <td>${escapeHtml(part.location || '-')}</td>
+          <td>${escapeHtml(part.notes || '-')}</td>
           <td>
             <div class="mini-actions">
-              <button class="btn-primary" onclick="showQr('${part.code}')">QR</button>
-              <button class="btn-success" onclick="changeQty('${part.code}', 1)">+1</button>
-              <button class="btn-warning" onclick="changeQty('${part.code}', -1)">-1</button>
-              <button class="btn-muted" onclick="editPart('${part.code}')">Red.</button>
-              <button class="btn-danger" onclick="deletePart('${part.code}')">Trinti</button>
+              <button class="btn-primary" onclick="showQrByKey('${encodeURIComponent(part.code)}','${encodeURIComponent(part.notes || '')}')">QR</button>
+              <button class="btn-success" onclick="changeQtyByKey('${encodeURIComponent(part.code)}','${encodeURIComponent(part.notes || '')}',1)">+1</button>
+              <button class="btn-warning" onclick="changeQtyByKey('${encodeURIComponent(part.code)}','${encodeURIComponent(part.notes || '')}',-1)">-1</button>
+              <button class="btn-muted" onclick="editPartByKey('${encodeURIComponent(part.code)}','${encodeURIComponent(part.notes || '')}')">Red.</button>
+              <button class="btn-danger" onclick="deletePartByKey('${encodeURIComponent(part.code)}','${encodeURIComponent(part.notes || '')}')">Trinti</button>
             </div>
           </td>
         </tr>
       `).join('');
     }
 
-    function findPartByCode(code) {
-      return parts.find(p => String(p.code).trim().toLowerCase() === String(code).trim().toLowerCase()) || null;
+    function findPartByCodeAndNotes(code, notes = '') {
+      const nCode = normalizeText(code).toLowerCase();
+      const nNotes = normalizeText(notes);
+
+      return parts.find(part =>
+        normalizeText(part.code).toLowerCase() === nCode &&
+        normalizeText(part.notes) === nNotes
+      ) || null;
     }
 
-    function editPart(code) {
-      const part = findPartByCode(code);
+    function findFirstPartByCode(code) {
+      const nCode = normalizeText(code).toLowerCase();
+      return parts.find(part => normalizeText(part.code).toLowerCase() === nCode) || null;
+    }
+
+    function editPartByKey(code, notes) {
+      const part = findPartByCodeAndNotes(decodeURIComponent(code), decodeURIComponent(notes));
       if (!part) return;
-      editingCode = part.code;
+
+      editingPart = part;
       partCode.value = part.code;
       partName.value = part.name;
       partQty.value = part.qty;
       partLocation.value = part.location || '';
       partNotes.value = part.notes || '';
+
       document.getElementById('saveBtn').textContent = 'Atnaujinti detalę';
       showStatus(`Redaguoji detalę ${part.code}.`, 'ok');
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
-    async function deletePart(code) {
-      const part = findPartByCode(code);
+    async function deletePartByKey(code, notes) {
+      const decodedCode = decodeURIComponent(code);
+      const decodedNotes = decodeURIComponent(notes);
+      const part = findPartByCodeAndNotes(decodedCode, decodedNotes);
+
       if (!part) return;
-      if (!confirm(`Ar tikrai nori ištrinti detalę ${part.code}?`)) return;
+
+      if (!confirm(`Ar tikrai nori ištrinti detalę ${part.code}${part.notes ? ' (' + part.notes + ')' : ''}?`)) {
+        return;
+      }
+
       try {
-        await apiPost({ action: 'deletePart', code: part.code });
-        addHistory('Ištrinta detalė', part);
+        const result = await apiPost({
+          action: 'deletePart',
+          code: part.code,
+          notes: part.notes || ''
+        });
+
+        if (!result.ok) {
+          throw new Error(result.error || 'Nepavyko ištrinti');
+        }
+
         await loadPartsFromSheet();
         clearForm();
         showStatus('Detalė ištrinta.', 'ok');
@@ -537,25 +687,30 @@
       }
     }
 
-    async function changeQty(code, delta) {
-      const part = findPartByCode(code);
+    async function changeQtyByKey(code, notes, delta) {
+      const decodedCode = decodeURIComponent(code);
+      const decodedNotes = decodeURIComponent(notes);
+      const part = findPartByCodeAndNotes(decodedCode, decodedNotes);
+
       if (!part) {
         showStatus('Detalė nerasta.', 'err');
         return;
       }
-      if (part.qty + delta < 0) {
-        showStatus('Kiekis negali būti mažesnis už 0.', 'err');
-        return;
-      }
+
       try {
-        const payload = {
+        const result = await apiPost({
           action: 'changeQty',
           code: part.code,
+          notes: part.notes || '',
           delta: delta
-        };
-        await apiPost(payload);
-        addHistory(delta > 0 ? 'Padidintas kiekis' : 'Sumažintas kiekis', { ...part, qty: Math.max(0, part.qty + delta) }, `Pokytis: ${delta > 0 ? '+' : ''}${delta}`);
+        });
+
+        if (!result.ok) {
+          throw new Error(result.error || 'Nepavyko pakeisti kiekio');
+        }
+
         await loadPartsFromSheet();
+        showStatus(`Kiekis pakeistas. Naujas kiekis: ${result.newQty}`, 'ok');
       } catch (error) {
         showStatus('Nepavyko pakeisti kiekio: ' + error.message, 'err');
       }
@@ -565,17 +720,31 @@
       return part.code;
     }
 
-    function showQr(code) {
-      const part = findPartByCode(code);
+    function showQrByKey(code, notes) {
+      const part = findPartByCodeAndNotes(decodeURIComponent(code), decodeURIComponent(notes));
       if (!part) return;
+
       qrCanvas.innerHTML = '';
       const qrValue = getQrValue(part);
+
       qrPartInfo.innerHTML = `
         <strong>${escapeHtml(part.name)}</strong><br>
-        <span class="small">Kodas: ${escapeHtml(part.code)} | Kiekis: ${part.qty} | Vieta: ${escapeHtml(part.location || '-')}</span>
+        <span class="small">
+          Kodas: ${escapeHtml(part.code)} |
+          Kiekis: ${part.qty} |
+          Vieta: ${escapeHtml(part.location || '-')} |
+          Pastabos: ${escapeHtml(part.notes || '-')}
+        </span>
       `;
+
       qrValueText.textContent = `QR reikšmė: ${qrValue}`;
-      new QRCode(qrCanvas, { text: qrValue, width: 200, height: 200 });
+
+      new QRCode(qrCanvas, {
+        text: qrValue,
+        width: 200,
+        height: 200
+      });
+
       qrModal.style.display = 'flex';
     }
 
@@ -585,27 +754,38 @@
     }
 
     function showScannedPart(code) {
-      lastScannedCode = String(code || '').trim();
-      const part = findPartByCode(lastScannedCode);
-      lastScannedPartCode = part ? part.code : null;
+      lastScannedCode = normalizeText(code);
+
+      const exactPart = findFirstPartByCode(lastScannedCode);
+      lastScannedPart = exactPart;
+
       scanCodeText.textContent = lastScannedCode || '-';
-      scanPartText.textContent = part
-        ? `${part.name} | Kodas: ${part.code} | Kiekis: ${part.qty} | Vieta: ${part.location || '-'}`
+      scanPartText.textContent = exactPart
+        ? `${exactPart.name} | Kodas: ${exactPart.code} | Kiekis: ${exactPart.qty} | Vieta: ${exactPart.location || '-'} | Pastabos: ${exactPart.notes || '-'}`
         : 'Detalė nerasta';
+
       scanResultBox.style.display = 'block';
-      showStatus(part ? `Nuskaityta detalė ${part.code}.` : 'QR nuskaitytas, bet detalė nerasta bendrame sąraše.', part ? 'ok' : 'err');
+
+      if (exactPart) {
+        showStatus(`Nuskaityta detalė ${exactPart.code}.`, 'ok');
+      } else {
+        showStatus('QR nuskaitytas, bet detalė nerasta bendrame sąraše.', 'err');
+      }
     }
 
     async function startScanner() {
       if (isScannerRunning) return;
+
       try {
         html5QrCode = new Html5Qrcode('reader');
+
         await html5QrCode.start(
           { facingMode: 'environment' },
           { fps: 10, qrbox: { width: 220, height: 220 }, aspectRatio: 1.333334 },
           decodedText => showScannedPart(decodedText),
           () => {}
         );
+
         isScannerRunning = true;
         showStatus('Kamera įjungta. Nukreipk telefoną į QR kodą.', 'ok');
       } catch (error) {
@@ -627,66 +807,83 @@
       }
     }
 
-    function exportCSV() {
-      if (!parts.length) {
-        showStatus('Nėra ką eksportuoti.', 'err');
-        return;
-      }
-      const headers = ['Kodas', 'Pavadinimas', 'Kiekis', 'Vieta', 'Pastabos'];
-      const rows = parts.map(p => [p.code, p.name, p.qty, p.location || '', p.notes || '']);
-      const csv = [headers, ...rows]
-        .map(row => row.map(cell => `"${String(cell).replaceAll('"', '""')}"`).join(';'))
-        .join('\n');
-      const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = 'detales_export.csv';
-      document.body.appendChild(a);
-      a.click();
-      a.remove();
-      URL.revokeObjectURL(url);
-      showStatus('CSV failas paruoštas.', 'ok');
-    }
-
     document.getElementById('saveBtn').addEventListener('click', savePartToSheet);
     document.getElementById('clearBtn').addEventListener('click', clearForm);
     document.getElementById('refreshBtn').addEventListener('click', loadPartsFromSheet);
     document.getElementById('loadBtn').addEventListener('click', loadPartsFromSheet);
-    document.getElementById('exportBtn').addEventListener('click', exportCSV);
     document.getElementById('closeQrBtn').addEventListener('click', closeQr);
+
     document.getElementById('saveConfigBtn').addEventListener('click', () => {
-      saveConfig({ appsScriptUrl: appsScriptUrlInput.value.trim() });
+      saveConfig({ appsScriptUrl: normalizeText(appsScriptUrlInput.value) });
       showStatus('Apps Script URL išsaugotas naršyklėje.', 'ok');
     });
+
     document.getElementById('startScanBtn').addEventListener('click', startScanner);
     document.getElementById('stopScanBtn').addEventListener('click', stopScanner);
+
     document.getElementById('scanPlusBtn').addEventListener('click', async () => {
-      if (!lastScannedPartCode) return showStatus('Nėra nuskaitytos detalės.', 'err');
-      await changeQty(lastScannedPartCode, 1);
-      showScannedPart(lastScannedPartCode);
+      if (!lastScannedPart) {
+        showStatus('Nėra nuskaitytos detalės.', 'err');
+        return;
+      }
+
+      await changeQtyByKey(
+        encodeURIComponent(lastScannedPart.code),
+        encodeURIComponent(lastScannedPart.notes || ''),
+        1
+      );
+      const refreshed = findFirstPartByCode(lastScannedPart.code);
+      if (refreshed) showScannedPart(refreshed.code);
     });
+
     document.getElementById('scanMinusBtn').addEventListener('click', async () => {
-      if (!lastScannedPartCode) return showStatus('Nėra nuskaitytos detalės.', 'err');
-      await changeQty(lastScannedPartCode, -1);
-      showScannedPart(lastScannedPartCode);
+      if (!lastScannedPart) {
+        showStatus('Nėra nuskaitytos detalės.', 'err');
+        return;
+      }
+
+      await changeQtyByKey(
+        encodeURIComponent(lastScannedPart.code),
+        encodeURIComponent(lastScannedPart.notes || ''),
+        -1
+      );
+      const refreshed = findFirstPartByCode(lastScannedPart.code);
+      if (refreshed) showScannedPart(refreshed.code);
     });
+
     document.getElementById('scanOpenBtn').addEventListener('click', () => {
-      if (!lastScannedPartCode) return showStatus('Nėra nuskaitytos detalės.', 'err');
-      editPart(lastScannedPartCode);
+      if (!lastScannedPart) {
+        showStatus('Nėra nuskaitytos detalės.', 'err');
+        return;
+      }
+
+      editPartByKey(
+        encodeURIComponent(lastScannedPart.code),
+        encodeURIComponent(lastScannedPart.notes || '')
+      );
     });
+
     document.getElementById('scanRefreshBtn').addEventListener('click', loadPartsFromSheet);
     searchInput.addEventListener('input', renderTable);
 
     qrModal.addEventListener('click', e => {
-      if (e.target === qrModal) closeQr();
+      if (e.target === qrModal) {
+        closeQr();
+      }
     });
 
     window.addEventListener('beforeunload', () => {
-      if (html5QrCode && isScannerRunning) html5QrCode.stop().catch(() => {});
+      if (html5QrCode && isScannerRunning) {
+        html5QrCode.stop().catch(() => {});
+      }
     });
 
-    renderHistory();
+    // Automatinis atnaujinimas kas 10 sekundžių
+    setInterval(() => {
+      if (!document.hidden && normalizeText(appsScriptUrlInput.value)) {
+        loadPartsFromSheet();
+      }
+    }, 10000);
   </script>
 </body>
 </html>
